@@ -10,8 +10,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore"
 import "bootstrap/dist/css/bootstrap.min.css";
-import AuthForm from "./components/Auth/AuthForm";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiB5TXZeYdlQ0nc-T3aj7AGveRDdPBq8g",
@@ -24,6 +24,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 export let uid = null;
 
 export const loginUser = (email, password) => {
