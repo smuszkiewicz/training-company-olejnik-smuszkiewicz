@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { Container, Row } from "react-bootstrap";
+import Header from "./components/Layout/Header";
+import AuthForm from "./components/Auth/AuthForm";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <AuthForm />
+      <Row>
+        <Header />
+      </Row>
+      <Container>
+        
+      </Container>
+    </Container> 
   );
 }
 

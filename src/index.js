@@ -3,6 +3,34 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDiB5TXZeYdlQ0nc-T3aj7AGveRDdPBq8g",
+  authDomain: "training-company-7275e.firebaseapp.com",
+  projectId: "training-company-7275e",
+  storageBucket: "training-company-7275e.appspot.com",
+  messagingSenderId: "2523724554",
+  appId: "1:2523724554:web:8f92c5ee153d631d7d58f3"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+export const loginUser = (email, password) => {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
