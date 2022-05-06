@@ -1,11 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import "bootstrap/dist/css/bootstrap.min.css";
+import AuthForm from "./components/Auth/AuthForm";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiB5TXZeYdlQ0nc-T3aj7AGveRDdPBq8g",
@@ -13,16 +19,17 @@ const firebaseConfig = {
   projectId: "training-company-7275e",
   storageBucket: "training-company-7275e.appspot.com",
   messagingSenderId: "2523724554",
-  appId: "1:2523724554:web:8f92c5ee153d631d7d58f3"
+  appId: "1:2523724554:web:8f92c5ee153d631d7d58f3",
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+export let uid = null;
 
 export const loginUser = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed in 
+      // Signed in
       const user = userCredential.user;
       // ...
     })
@@ -30,9 +37,27 @@ export const loginUser = (email, password) => {
       const errorCode = error.code;
       const errorMessage = error.message;
     });
-}
+};
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+export const logoutUser = () => {
+  signOut(auth)
+    .then(() => {
+      // Sign-out successful.
+    })
+    .catch((error) => {
+      // An error happened.
+    });
+};
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    uid = user.uid;
+  } else {
+    uid = null;
+  }
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <App />
