@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -10,8 +11,18 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc } from "firebase/firestore"
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Users from "./components/Users/UsersList";
+import Scheduler from "./components/Scheduler/Scheduler";
+import Materials from "./components/Materials/Materials";
+import English from "./components/Materials/English";
+import Welding from "./components/Materials/Welding";
+import Soccer from "./components/Materials/Soccer";
+import UsersList from "./components/Users/UsersList";
+import Header from "./components/Layout/Header";
+import AuthForm from "./components/Auth/AuthForm";
+import { Row } from "react-bootstrap";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiB5TXZeYdlQ0nc-T3aj7AGveRDdPBq8g",
@@ -43,10 +54,8 @@ export const loginUser = (email, password) => {
 export const logoutUser = () => {
   signOut(auth)
     .then(() => {
-      // Sign-out successful.
     })
     .catch((error) => {
-      // An error happened.
     });
 };
 
@@ -61,11 +70,24 @@ onAuthStateChanged(auth, (user) => {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+    {uid == null && <AuthForm />}
+    <Row>
+      <Header />
+    </Row>
+      <Routes>
+        <Route exact path="" element={<App />}>
+          <Route path="/" element={<UsersList />} />
+          <Route path="/UsersList" element={<UsersList />} />
+          <Route path="/Scheduler" element={<Scheduler />} />
+          <Route path="/Materials" element={<Materials />} />
+          <Route path="/English" element={<English />} />
+          <Route path="/Welding" element={<Welding />} />
+          <Route path="/Soccer" element={<Soccer />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
